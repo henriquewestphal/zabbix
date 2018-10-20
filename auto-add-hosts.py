@@ -4,7 +4,6 @@ import sys
 username = sys.argv[1]
 senha = sys.argv[2]
 
-print username
 zapi = ZabbixAPI("http://m7.by7.com.br/")
 zapi.login(user=username, password=senha)
 
@@ -13,7 +12,6 @@ arq = csv.reader(open('/tmp/hosts.csv'))
 linhas = sum(1 for linha in arq)
 
 f = csv.reader(open('/tmp/hosts.csv'), delimiter=';')
-i = 0
 
 for [hostname,ip] in f:
     hostcriado = zapi.host.create(
@@ -40,6 +38,5 @@ for [hostname,ip] in f:
     
     )
     print ("ADD Host" + hostname + "com o IP:" + ip)
-
-    i += 1
+    
 print " "
