@@ -1,0 +1,9 @@
+ZABBIX_API
+
+Script criado conforme necessidade de adicionar varios host de uma so vez via API. 
+
+nela voce pode setar o ProxyID, Template e GroupID conforme necessidade. 
+
+parea usar basta ajustas o parametro da URL de conexão com a sua API. 
+e depois passar como parametro o usuário e senha. 
+
