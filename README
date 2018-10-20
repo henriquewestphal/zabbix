@@ -7,3 +7,13 @@ nela voce pode setar o ProxyID, Template e GroupID conforme necessidade.
 parea usar basta ajustas o parametro da URL de conexão com a sua API. 
 e depois passar como parametro o usuário e senha. 
 
+
+Necessario criar um arquivo no /tmp/hosts.csv
+
+com a estrutura hostname;IP
+Exemplo:
+
+Server1;10.10.0.1
+Server2;10.10.0.2
+Server3;10.10.0.3
+
