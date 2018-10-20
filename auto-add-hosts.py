@@ -42,7 +42,4 @@ for [hostname,ip] in f:
     print ("ADD Host" + hostname + "com o IP:" + ip)
 
     i += 1
-    #bar.update(i)
-
-#bar.finish
 print " "
