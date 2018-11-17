@@ -13,7 +13,7 @@ Necessario criar um arquivo no /tmp/addhosts
 
 com a estrutura hostname;IP
 
-Exemplo:
+* Exemplo:
 ```
 Server1;10.10.0.1
 Server2;10.10.0.2
@@ -30,7 +30,7 @@ Basta Criar um arquivo /tmp/delidhosts
 
 com a estrutura hostid;hostname
 
-Exemplo:
+* Exemplo:
 ```
 14132;Server1
 14133;Server2
