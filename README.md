@@ -1,7 +1,7 @@
-ZABBIX
+#ZABBIX
 
 
-# ADD HOST auto-add-hosts.py
+## ADD HOST auto-add-hosts.py
 
 Script criado conforme necessidade de adicionar varios host de uma so vez via API. 
 
@@ -20,7 +20,7 @@ Server3;10.10.0.3
 
 
 
-# DEL HOST auto-del-hosts.py
+## DEL HOST auto-del-hosts.py
 
 Script criado para deletar o host de forma automatica. 
 
