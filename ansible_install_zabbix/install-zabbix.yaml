@@ -1,0 +1,164 @@
+---
+# Henrique Westphal Alves 
+- name: Configurar e instalar agente zabbix no Proxy_zabbix
+  hosts: srv-portal01
+  remote_user: root
+  become: yes
+  become_method: sudo
+
+  tasks: 
+  - name: creat group
+    group:
+      name: zabbix
+      state: present
+    
+  - name: Add user
+    user:
+      name: zabbix
+      password: zabbixmon
+      groups: root,zabbix
+      state: present
+      append: yes
+
+  - name: install depends
+    yum:
+      name: "{{ item }}"
+      state: latest
+    with_items:
+      - glibc-devel
+      - glibc.i686
+      - libselinux-python
+      
+  - name: Creates directory
+    file:
+      path: /opt/seven
+      state: directory
+      owner: root
+      group: root
+      mode: 0775
+     
+  - name: Copy file zabbix.tar for /tmp
+    copy:
+      src: zabbix.tar
+      dest: /tmp/
+      owner: root
+      group: root
+      mode: 0775
+    sudo: yes 
+
+  - name: descompact files zabbix
+    shell: tar -xvf /tmp/zabbix.tar -C /opt/seven/
+    sudo: yes 
+
+  - name: Copy file jdk_tmp.tar for /tmp
+    copy:
+      src: jdk_tmp.tar
+      dest: /tmp/
+      owner: root
+      group: root
+      mode: 0775
+    sudo: yes 
+
+  - name: descompact folders jdk tmp
+    shell: tar -xvf /tmp/jdk_tmp.tar -C /opt/seven/
+    sudo: yes 
+    
+  - name: Creates directory
+    file:
+      path: /opt/seven/scripts
+      state: directory
+      owner: root
+      group: root
+      mode: 0775
+      
+  - name: Copy file scripts.tar for /tmp
+    copy:
+      src: scripts.tar
+      dest: /tmp/
+      owner: root
+      group: root
+      mode: 0775
+    sudo: yes
+
+  - name: descompact folders scripts
+    shell: tar -xvf /tmp/scripts.tar -C /opt/seven/scripts/
+    sudo: yes 
+  
+  - name: ajusta do conf 
+    shell: "echo PidFile=/opt/seven/zabbix/log/zabbix_agentd.pid
+    '\n'LogFile=/opt/seven/zabbix/log/zabbix_agentd.log
+    '\n'EnableRemoteCommands=1
+    '\n'Server=177.177.177.177
+    '\n'ServerActive=177.177.177.177
+    '\n'BufferSize=20
+    '\n'Timeout=30
+    '\n'>/opt/seven/zabbix/conf/zabbix_agentd.conf"
+    sudo: yes
+
+  - name: Copy file scripts.tar for /tmp
+    copy:
+      src: ajustanome.sh
+      dest: /opt/seven/zabbix/
+      owner: root
+      group: root
+      mode: 0777
+    sudo: yes
+
+  - nome: get Hostname
+    shell: sh /opt/seven/zabbix/ajustanome.sh
+    sudo: yes
+
+  - name: copy conf for diretory /usr/local/etc
+    shell: cp /opt/seven/zabbix/conf/zabbix_agentd.conf /usr/local/etc/
+    sudo: yes 
+
+  - name: copy file for /etc/init.d/
+    shell: cp /opt/seven/zabbix/misc/init.d/fedora/core5/zabbix_agentd /etc/init.d/
+    sudo: yes 
+  
+  - name: copy file zabbix
+    copy:
+      src: zabbix_agentd
+      dest: /usr/local/sbin/
+      owner: root
+      group: root
+      mode: 0777
+    sudo: yes 
+
+  - name: Enable service zabbix
+    service:
+      name: zabbix_agentd
+      enabled: yes
+    sudo: yes 
+
+  - name: Ajuste do Cron
+    cron:
+      name: Sincronia de logs - By7
+      minute: "*/5"
+      user: root
+      job: "/opt/seven/scripts/sync_logs.sh"
+    sudo: yes  
+    
+  - name: chmod /opt/seven
+    shell: "chmod -R 775 /opt/seven/"
+    sudo: yes
+
+  - name: Start service zabbix
+    shell: /etc/init.d/zabbix_agentd start >/dev/null 2>&1 &
+    async: 10
+    poll: 0
+    sudo: yes 
+
+  - nome: checa erros
+    shell: tail /opt/seven/zabbix/log/zabbix_agentd.log 
+    register: log_zabbix
+
+  - nome: retorna erros
+    debug: msg="{{ log_zabbix.stdout }}"
+
+  - name: checar Conf
+    shell: cat /opt/seven/zabbix/conf/zabbix_agentd.conf | grep Hostname
+    register: command_result
+
+  - name: Retorna checagem
+    debug: msg="{{ command_result.stdout }}"
