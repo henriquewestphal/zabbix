@@ -1,11 +1,11 @@
 from pyzabbix import ZabbixAPI
 import csv
 import sys
+url = sys.argv[1]
+username = sys.argv[2]
+senha = sys.argv[3]
 
-username = sys.argv[1]
-senha = sys.argv[2]
-
-zapi = ZabbixAPI(url='http://m7.by7.com.br/', user=username, password=senha)
+zapi = ZabbixAPI(url=url, user=username, password=senha)
 f = csv.reader(open('/tmp/delidhosts'), delimiter=';')
 
 for hostdel,hostname in f:
