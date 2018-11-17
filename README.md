@@ -1,4 +1,4 @@
-#ZABBIX
+# ZABBIX
 
 
 ## ADD HOST auto-add-hosts.py
@@ -14,10 +14,11 @@ Necessario criar um arquivo no /tmp/addhosts
 com a estrutura hostname;IP
 
 Exemplo:
+```
 Server1;10.10.0.1
 Server2;10.10.0.2
 Server3;10.10.0.3
-
+```
 
 
 ## DEL HOST auto-del-hosts.py
@@ -30,7 +31,8 @@ Basta Criar um arquivo /tmp/delidhosts
 com a estrutura hostid;hostname
 
 Exemplo:
+```
 14132;Server1
 14133;Server2
 14134;Server3
-
+```
