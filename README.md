@@ -15,6 +15,7 @@ com a estrutura hostname;IP
 
 * Exemplo:
 ```
+$ cat /tmp/addhosts
 Server1;10.10.0.1
 Server2;10.10.0.2
 Server3;10.10.0.3
@@ -32,6 +33,7 @@ com a estrutura hostid;hostname
 
 * Exemplo:
 ```
+$ cat /tmp/delidhosts
 14132;Server1
 14133;Server2
 14134;Server3
